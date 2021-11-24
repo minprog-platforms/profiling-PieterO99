@@ -7,7 +7,7 @@ class Sudoku:
     """A mutable sudoku puzzle."""
 
     def __init__(self, puzzle: Iterable[Iterable]):
-        self._grid: list[int] = []
+        self._grid: list[str] = []
 
         for puzzle_row in puzzle:
             row = ""
