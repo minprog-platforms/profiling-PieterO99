@@ -10,7 +10,12 @@ class Sudoku:
         self._grid: list[int] = []
 
         for puzzle_row in puzzle:
-            self._grid.append(puzzle_row)
+            row = ""
+
+            for element in puzzle_row:
+                row += str(element)
+
+            self._grid.append(row)
 
     def place(self, value: int, x: int, y: int) -> None:
         """Place value at x,y."""
