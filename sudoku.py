@@ -88,7 +88,7 @@ class Sudoku:
     def row_values(self, i: int) -> Iterable[int]:
         """Returns all values at i-th row."""
         
-        values = values = list(map(int, self._grid[i]))
+        values = list(map(int, self._grid[i]))
 
         return values
 
