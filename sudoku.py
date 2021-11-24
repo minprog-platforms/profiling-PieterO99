@@ -7,24 +7,10 @@ class Sudoku:
     """A mutable sudoku puzzle."""
 
     def __init__(self, puzzle: Iterable[Iterable]):
-        self._grid: list[str] = []
+        self._grid: list[int] = []
 
         for puzzle_row in puzzle:
-            row = ""
-
-            for element in puzzle_row:
-                row += str(element)
-
-            self._grid.append(row)
-
-        self._rows = dict()
-        self._columns = dict()
-        self._blocks = dict()
-
-        for i in range(9):
-            self._rows[i] = self.row_values(i)
-            self._columns[i] = self.column_values(i)
-            self._blocks[i] = self.block_values(i) 
+            self._grid.append(puzzle_row)
 
     def place(self, value: int, x: int, y: int) -> None:
         """Place value at x,y."""
@@ -51,29 +37,31 @@ class Sudoku:
         value = int(row[x])
         return value
 
+
     def options_at(self, x: int, y: int) -> Iterable[int]:
         """Returns all possible values (options) at x,y."""
         options = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-        self._rows[y] = self.row_values(y)
-        self._columns[x] = self.column_values(x)
-
+        row = self.row_values(y)
+        column = []
+        for i in range(9):
+            column.append(self.value_at(x,i))
         # Remove all values from the row
-        for value in self._rows[y]:
+        for value in row:
             if value in options:
                 options.remove(value)
 
         # Remove all values from the column
-        for value in self._columns[x]:
+        for value in column:
             if value in options:
                 options.remove(value)
 
         # Get the index of the block based from x,y
         block_index = (y // 3) * 3 + x // 3
-        self._blocks[block_index] = self.block_values(block_index)
+        block = self.block_values(block_index)
 
         # Remove all values from the block
-        for value in self._blocks[block_index]:
+        for value in block:
             if value in options:
                 options.remove(value)
 
@@ -95,10 +83,7 @@ class Sudoku:
     def row_values(self, i: int) -> Iterable[int]:
         """Returns all values at i-th row."""
         
-        values = []
-
-        for j in range(9):
-            values.append(self.value_at(j, i))
+        values = values = list(map(int, self._grid[i]))
 
         return values
 
